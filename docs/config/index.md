@@ -86,7 +86,9 @@ export default defineConfig(async ({ command, mode }) => {
 
 Environmental Variables can be obtained from `process.env` as usual.
 
-Note that Vite doesn't load `.env` files by default as the files to load can only be determined after evaluating the Vite config, for example, the `root` and `envDir` options affect the loading behaviour. However, you can use the exported `loadEnv` helper to load the specific `.env` file if needed.
+Note that Vite doesn't load `.env` files by default, unless you use the `envDir` config option and name your config files `.env.[mode]`, as the files to load can only be determined after evaluating the Vite config. The `root` option can also affect the loading behaviour. 
+
+However, you can use the exported `loadEnv` helper to load the specific `.env` file if needed. 
 
 ```js
 import { defineConfig, loadEnv } from 'vite'
@@ -103,3 +105,5 @@ export default defineConfig(({ command, mode }) => {
   }
 })
 ```
+::: tip NOTE
+`define` does a global search and replace. So if you define the string `__APP_ENV__` here, you would then access it in your code as `__APP_ENV__` rather than import.meta.env.__APP_ENV__. If you want to continue using import.meta.__APP_ENV, then the key in define must be the string 'import.meta.__APP_ENV'. 
